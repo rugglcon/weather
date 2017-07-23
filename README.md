@@ -14,11 +14,9 @@ Weather app written in C++
 
 Run `meson build` in the top-level directory, then enter the `build` directory and run `ninja`:
 
-`meson build
-
-cd build
-
-ninja`
+	meson build
+	cd build
+	ninja
 
 ### Installation
 
