@@ -4,7 +4,7 @@
 #include <gtkmm>
 #include "Location.h"
 
-class App : public Gtk::Application {
+class WeatherApp : public Gtk::Application {
 	private:
 		std::vector<Location> locations;
 

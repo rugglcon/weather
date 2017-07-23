@@ -1,10 +1,10 @@
 #include <gtkmm.h>
-
+#include "WeatherApp.h"
 
 using namespace Gtk;
 
 int main(int argc, char *argv[]) {
-	auto app = 
+	WeatherApp app = 
 		Application::create(argc, argv,
 				"org.gtkmm.examples.base");
 
