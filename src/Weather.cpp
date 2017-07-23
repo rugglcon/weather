@@ -4,3 +4,7 @@
 Weather::Weather() {
 	forecast = new Forecast();
 }
+
+Weather::~Weather() {
+	delete forecast;
+}

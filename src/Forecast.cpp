@@ -11,6 +11,12 @@ Forecast::Forecast() {
 	today = days[0];
 }
 
+Forecast::~Forecast() {
+	for(int i = 0; i < FORECAST_DAYS; i++) {
+		delete days[i];
+	}
+}
+
 vector<string> Forecast::get_next_days() {
 	vector<string> tmp_days;
 	for(int i = 0; i < FORECAST_DAYS; i++) {

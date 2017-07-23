@@ -5,3 +5,6 @@ cpp = run_command('src/grabber.sh')
 sources = cpp.stdout().strip().split('\n')
 
 executable('com.github.rugglcon.weather', sources, dependencies : gtkdep)
+
+subdir('data')
+subdir('po')
