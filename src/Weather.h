@@ -10,7 +10,7 @@ class Forecast;
 
 class Weather {
 	private:
-		Forecast forecast;
+		Forecast *forecast;
 
 	public:
 		Weather();
