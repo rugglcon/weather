@@ -9,9 +9,9 @@ using namespace std;
 
 class Forecast {
 	private:
-	public:
 		Day *days[FORECAST_DAYS];
 		Day *today;
+	public:
 		Forecast();
 		~Forecast();
 		vector<string> get_next_days();
