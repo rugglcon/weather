@@ -7,9 +7,7 @@
 ### Build Dependencies
 
 + libgtkmm-3.0-dev
-
 + meson
-
 + g++
 
 ### Building
@@ -17,7 +15,9 @@
 Run `meson build` in the top-level directory, then enter the `build` directory and run `ninja`:
 
 `meson build
+
 cd build
+
 ninja`
 
 ### Installation
