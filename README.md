@@ -1,6 +1,6 @@
 # cpp-weather
 
-## Weather app written in C++
+Weather app written in C++
 
 ## Build, Test, and Install
 
