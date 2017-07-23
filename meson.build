@@ -1,3 +1,7 @@
-project('weather', 'cpp')
+project('weather', 'cpp', version: '0.1')
 gtkdep = dependency('gtkmm-3.0')
-executable('com.github.rugglcon.weather', 'src/main.cpp', dependencies : gtkdep)
+
+cpp = run_command('src/grabber.sh')
+sources = cpp.stdout().strip().split('\n')
+
+executable('com.github.rugglcon.weather', sources, dependencies : gtkdep)
