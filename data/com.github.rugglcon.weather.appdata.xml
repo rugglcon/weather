@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Copyright 2017 Connor Ruggles <cruggles@iastate.edu> -->
+<component type="desktop">
+	<id>com.github.rugglcon.weather.desktop</id>
+	<metadata_license>CC0</metadata_license>
+	<name>Weather</name>
+	<summary>Accurate and detailed weather app</summary>
+	<description>
+		<p>Fetches the current weather and a 4 day forecast at either an entered location or your current location</p>
+	</description>
+	<value key="x-appcenter-suggested-price">1</value>
+</component>
