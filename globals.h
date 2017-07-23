@@ -1,1 +1,0 @@
-#define FORECAST_DAYS 5
