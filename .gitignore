@@ -1,2 +1,4 @@
 .*.swp
-Weather
+build/
+com.github.rugglcon.weather
+tags

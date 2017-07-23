@@ -1,7 +1,7 @@
 #ifndef WEATHERAPP_H
 	#define WEATHERAPP_H
 
-#include <gtkmm>
+#include <gtkmm.h>
 #include "Location.h"
 
 class WeatherApp : public Gtk::Application {
