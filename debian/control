@@ -1,0 +1,15 @@
+Source: com.github.rugglcon.weather
+Section: x11
+Priority: extra
+Maintainer: Connor Ruggles <cruggles@iastate.edu>
+Build-Depends: meson,
+               debhelper (>= 9),
+               libgtkmm-3.0-dev,
+               g++
+Standards-Version: 3.9.3
+
+Package: com.github.rugglcon.weather
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Forecast for anywhere
+ Check current weather conditions and a 4 day forecast for any location.
