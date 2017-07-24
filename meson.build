@@ -7,6 +7,6 @@ gtkdep = dependency('gtkmm-3.0')
 cpp = run_command('src/grabber.sh')
 sources = cpp.stdout().strip().split('\n')
 
-executable('com.github.rugglcon.weather', sources, dependencies : gtkdep)
+executable('com.github.rugglcon.weather', sources, dependencies : gtkdep, install : true)
 
 subdir('data')
