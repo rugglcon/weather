@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
 
 	Window window;
 	window.set_default_size(1024, 768);
-	window.set_title(_("Weather");
+	window.set_title("Weather");
 
 	return app->run(window);
 }

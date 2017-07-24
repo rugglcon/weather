@@ -2,5 +2,9 @@
 #include "globals.h"
 
 Day::Day() {
-	weekday = _("today");
+	weekday = "today";
+}
+
+Day::~Day() {
+
 }
