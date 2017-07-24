@@ -1,11 +1,11 @@
 [Desktop Entry]
 Name=Weather
 GenericName=Weather App
-Comment=Shows the weather
-Categories=Utility;Weather;
+Comment=Forecast for anywhere
+Categories=Utility;GTK;
 Exec=com.github.rugglcon.weather
 Icon=application-default-icon
 Terminal=false
 Type=Application
 X-GNOME-Gettext-Domain=weather
-Keywords=Weather;
+Keywords=weather;forecast;temperature;
