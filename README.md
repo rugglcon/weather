@@ -1,14 +1,14 @@
 # Weather
 
-C++ weather app written for elementary OS.
+Vala weather app written for elementary OS.
 
 ## Build, Test, and Install
 
 ### Build Dependencies
 
-+ libgtkmm-3.0-dev
++ gtk+-3.0
 + meson
-+ g++
++ valac
 
 ### Building
 
