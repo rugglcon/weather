@@ -23,12 +23,47 @@ public class WeatherApp : Gtk.Application {
             request_weather_data ();
         });
 
-        window.add (label);
+        var grid = new Gtk.Grid ();
+        grid.attach (zip_label, 0, 0);
+        grid.attach (zip_entry, 0, 1);
+        grid.attach (country_label, 1, 0);
+        grid.attach (country_entry, 1, 1);
+        grid.attach (submit, 1, 2);
+
+        window.add (grid);
         window.show_all ();
+    }
+
+    public string parse_weather_data (string data) {
+        var parser = new Json.Parser ();
+        parser.load_from_data (data);
     }
 
     public void request_weather_data () {
         var window = this.get_active_window ();
+        Gtk.Entry zip_code = null;
+        var old_grid = (Gtk.Grid) window.get_child ();
+        if (old_grid != null) {
+            zip_code = (Gtk.Entry) old_grid.get_child_at (0, 1);
+
+        }
+
+        stdout.printf(zip_code.get_text ());
+        string url = "http://api.openweathermap.org/data/2.5/forecast?zip=%s&appid=919f430ae0c3ef379b192023fb803cd8".printf (zip_code.get_text ());
+        Soup.Session session = new Soup.Session ();
+        Soup.Message message = new Soup.Message ("GET", url);
+        session.send_message (message);
+
+        parse_weather_data ((string) message.response_body.data);
+        stdout.printf ("\n");
+        stdout.write(message.response_body.data);
+        stdout.printf ("\n");
+
+        old_grid.destroy ();
+        var new_grid = new Gtk.Grid ();
+        new_grid.add (label);
+        window.add (new_grid);
+        window.show_all ();
     }
     
     public static int main(string[] args) {
