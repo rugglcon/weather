@@ -25,8 +25,8 @@ public class WeatherApp : Gtk.Application {
 
         var grid = new Gtk.Grid ();
         grid.attach (zip_label, 0, 0);
-        grid.attach (zip_entry, 0, 1);
-        grid.attach (country_label, 1, 0);
+        grid.attach (zip_entry, 1, 0);
+        grid.attach (country_label, 0, 1);
         grid.attach (country_entry, 1, 1);
         grid.attach (submit, 1, 2);
 
@@ -35,8 +35,21 @@ public class WeatherApp : Gtk.Application {
     }
 
     public string parse_weather_data (string data) {
-        var parser = new Json.Parser ();
-        parser.load_from_data (data);
+        //stdout.puts ((string) data);
+        try {
+            var parser = new Json.Parser ();
+            parser.load_from_data (data, -1);
+            
+            var root_object = parser.get_root ().get_object ();
+            var response = root_object.get_object_member ("city");
+            var city_name = response.get_string_member ("name");
+
+            return (string) city_name;
+        } catch (Error e) {
+            return "something went wrong parsing JSON";
+        }
+
+        return "whoops";
     }
 
     public void request_weather_data () {
@@ -44,19 +57,19 @@ public class WeatherApp : Gtk.Application {
         Gtk.Entry zip_code = null;
         var old_grid = (Gtk.Grid) window.get_child ();
         if (old_grid != null) {
-            zip_code = (Gtk.Entry) old_grid.get_child_at (0, 1);
+            zip_code = (Gtk.Entry) old_grid.get_child_at (1, 0);
 
         }
 
-        stdout.printf(zip_code.get_text ());
         string url = "http://api.openweathermap.org/data/2.5/forecast?zip=%s&appid=919f430ae0c3ef379b192023fb803cd8".printf (zip_code.get_text ());
         Soup.Session session = new Soup.Session ();
         Soup.Message message = new Soup.Message ("GET", url);
         session.send_message (message);
 
-        parse_weather_data ((string) message.response_body.data);
+        var code = parse_weather_data ((string) message.response_body.data);
+        var label = new Gtk.Label(code);
         stdout.printf ("\n");
-        stdout.write(message.response_body.data);
+        stdout.puts(code);
         stdout.printf ("\n");
 
         old_grid.destroy ();
