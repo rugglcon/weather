@@ -18,7 +18,8 @@ public class Location {
 
         foreach (var three_hour in results.get_elements ()) {
             var item = three_hour.get_object ();
-            stdout.printf ("%s\n", item.get_string_member ("dt_txt"));
+            var time = new DateTime.from_unix_utc (item.get_int_member ("dt"));
+            stdout.printf ("%d\n", time.get_day_of_week ());
         }
     }
 

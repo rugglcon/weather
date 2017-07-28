@@ -1,6 +1,6 @@
 # Weather
 
-Vala weather app written for elementary OS.
+Vala weather app written for elementary OS. Gets the current weather plus a forecast for the next four days.
 
 ## Build, Test, and Install
 
