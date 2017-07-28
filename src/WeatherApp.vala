@@ -34,43 +34,42 @@ public class WeatherApp : Gtk.Application {
         window.show_all ();
     }
 
-    public string parse_weather_data (string data) {
+    public Json.Object parse_weather_data (string data) {
         //stdout.puts ((string) data);
+        Json.Object root_object = null;
         try {
             var parser = new Json.Parser ();
             parser.load_from_data (data, -1);
             
-            var root_object = parser.get_root ().get_object ();
-            var response = root_object.get_object_member ("city");
-            var city_name = response.get_string_member ("name");
-
-            return (string) city_name;
+            root_object = parser.get_root ().get_object ();
         } catch (Error e) {
-            return "something went wrong parsing JSON";
+            stdout.puts ("something went wrong parsing JSON");
         }
 
-        return "whoops";
+        return root_object;
     }
 
     public void request_weather_data () {
         var window = this.get_active_window ();
         Gtk.Entry zip_code = null;
+        Gtk.Entry country = null;
         var old_grid = (Gtk.Grid) window.get_child ();
         if (old_grid != null) {
             zip_code = (Gtk.Entry) old_grid.get_child_at (1, 0);
-
+            country = (Gtk.Entry) old_grid.get_child_at (1, 1);
         }
 
-        string url = "http://api.openweathermap.org/data/2.5/forecast?zip=%s&appid=919f430ae0c3ef379b192023fb803cd8".printf (zip_code.get_text ());
+        string url = "http://api.openweathermap.org/data/2.5/forecast?zip=%s,%s&appid=919f430ae0c3ef379b192023fb803cd8".printf (zip_code.get_text (), country.get_text ());
         Soup.Session session = new Soup.Session ();
         Soup.Message message = new Soup.Message ("GET", url);
         session.send_message (message);
 
-        var code = parse_weather_data ((string) message.response_body.data);
-        var label = new Gtk.Label(code);
-        stdout.printf ("\n");
-        stdout.puts(code);
-        stdout.printf ("\n");
+        var weather_object = parse_weather_data ((string) message.response_body.data);
+
+        location = new Location(weather_object.get_object_member ("city").get_string_member ("name"));
+        location.set_weather_info (weather_object);
+
+        var label = new Gtk.Label(location.get_name ());
 
         old_grid.destroy ();
         var new_grid = new Gtk.Grid ();
