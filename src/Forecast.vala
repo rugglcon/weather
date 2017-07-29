@@ -1,7 +1,7 @@
 public class Forecast {
     private Day[] days;
 
-    public Forecast () {
+    public Forecast (Json.Array forecast) {
         days = new Day[5];
         for (int i = 0; i < 5; i++) {
             days[i] = new Day ();

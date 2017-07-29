@@ -34,21 +34,6 @@ public class WeatherApp : Gtk.Application {
         window.show_all ();
     }
 
-    public Json.Object parse_weather_data (string data) {
-        //stdout.puts ((string) data);
-        Json.Object root_object = null;
-        try {
-            var parser = new Json.Parser ();
-            parser.load_from_data (data, -1);
-            
-            root_object = parser.get_root ().get_object ();
-        } catch (Error e) {
-            stdout.puts ("something went wrong parsing JSON");
-        }
-
-        return root_object;
-    }
-
     public void request_weather_data () {
         var window = this.get_active_window ();
         Gtk.Entry zip_code = null;
@@ -59,14 +44,13 @@ public class WeatherApp : Gtk.Application {
             country = (Gtk.Entry) old_grid.get_child_at (1, 1);
         }
 
-        string url = "http://api.openweathermap.org/data/2.5/forecast?zip=%s,%s&appid=919f430ae0c3ef379b192023fb803cd8".printf (zip_code.get_text (), country.get_text ());
-        Soup.Session session = new Soup.Session ();
-        Soup.Message message = new Soup.Message ("GET", url);
-        session.send_message (message);
 
-        var weather_object = parse_weather_data ((string) message.response_body.data);
+        var util = new WeatherUtil ();
+        var weather_object = util.send_get_weather ("forecast", 
+                                            zip_code.get_text (), 
+                                            country.get_text ());
 
-        location = new Location(weather_object.get_object_member ("city").get_string_member ("name"));
+        location = new Location(weather_object.get_object_member ("city").get_string_member ("name"), zip_code.get_text (), country.get_text ());
         location.set_weather_info (weather_object);
 
         var label = new Gtk.Label(location.get_name ());
