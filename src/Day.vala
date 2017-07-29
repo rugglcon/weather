@@ -33,4 +33,10 @@ public class Day {
     public string get_conditions () {
         return this.conditions;
     }
+
+    private class Hour {
+        int time;
+        string condition;
+        int temp;
+    }
 }
