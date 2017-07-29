@@ -6,12 +6,8 @@ public class Day {
     private int precipitation;
     private string conditions;
 
-    public Day () {
+    public Day (Json.Object info) {
         
-    }
-
-    public void set_day_info (Json.Object info ) {
-    
     }
 
     public string get_day () {

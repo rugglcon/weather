@@ -18,7 +18,7 @@ public class Location {
 
         var util = new WeatherUtil ();
         var weather_object = util.send_get_weather ("weather", 
-                                                           zip, country);
+                                                    zip, country);
 
         var results = info.get_array_member ("list");
 

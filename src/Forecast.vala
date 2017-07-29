@@ -3,9 +3,6 @@ public class Forecast {
 
     public Forecast (Json.Array forecast) {
         days = new Day[5];
-        for (int i = 0; i < 5; i++) {
-            days[i] = new Day ();
-        }
     }
 
     public Day get_day (int num_day) {
@@ -14,5 +11,8 @@ public class Forecast {
 
     public Day[] get_all_days () {
         return this.days;
+    }
+
+    public void parse_forecast (Json.Object forecast_data) {
     }
 }
