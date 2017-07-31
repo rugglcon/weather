@@ -29,6 +29,8 @@ public class WeatherApp : Gtk.Application {
         grid.attach (country_label, 0, 1);
         grid.attach (country_entry, 1, 1);
         grid.attach (submit, 1, 2);
+        grid.row_spacing = 6;
+        grid.column_spacing = 2;
 
         window.add (grid);
         window.show_all ();

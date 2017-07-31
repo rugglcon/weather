@@ -13,6 +13,6 @@ public class Forecast {
         return this.days;
     }
 
-    public void parse_forecast (Json.Object forecast_data) {
+    public void parse_forecast (Json.Array forecast_data) {
     }
 }
