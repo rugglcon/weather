@@ -16,7 +16,6 @@ public class Day {
         if (is_today) {
             fill_today (info);
         }
-        stdout.printf ("%lld\n", cur_temp);
     }
 
     public void fill_hour (Json.Object info) {

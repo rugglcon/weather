@@ -60,12 +60,9 @@ public class WeatherApp : Gtk.Application {
 
         var label = new Gtk.Label(location.get_name ());
         var today = location.get_weather ().get_today ();
-        stdout.printf ("%lld\n", today.get_high ());
-        stdout.printf ("%lld\n", today.get_low ());
-        stdout.printf ("%lld\n", today.get_conditions ());
-        //new_grid.add (new Gtk.Label (today.get_high ().to_string ()));
-        //new_grid.add (new Gtk.Label (today.get_low ().to_string ()));
-        //new_grid.add (new Gtk.Label (today.get_conditions ()));
+        new_grid.add (new Gtk.Label (today.get_high ().to_string ()));
+        new_grid.add (new Gtk.Label (today.get_low ().to_string ()));
+        new_grid.add (new Gtk.Label (today.get_conditions ()));
 
         new_grid.add (label);
         window.add (new_grid);
