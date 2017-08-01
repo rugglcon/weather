@@ -11,10 +11,7 @@ public class Day {
 
     public Day (Json.Object info, bool today) {
         is_today = today;
-        times = new Hour[8];
-        for (var i = 0; i < 8; i++) {
-            times[i] = null;
-        }
+        times = new Hour[24];
 
         if (is_today) {
             fill_today (info);
@@ -23,10 +20,37 @@ public class Day {
     }
 
     public void fill_hour (Json.Object info) {
+        if (is_today) {
+            return;
+        }
         var util = new WeatherUtil ();
+        this.weekday = util.get_weekday (info);
+        var this_hour = new DateTime.from_unix_utc (
+                info.get_int_member ("dt")).get_hour ();
+        if (times[this_hour] == null || 
+                times[this_hour].get_day () != this.weekday) {
+            times[this_hour] = new Hour (this_hour);
+        }
+
+        var tmp_low = info.get_object_member ("main").
+                        get_int_member ("temp_min");
+        var tmp_high = info.get_object_member ("main").
+                        get_int_member ("temp");
+
+        times[this_hour].set_temp (tmp_high);
+        this.high = (tmp_high > this.high ? tmp_high : this.high);
+        this.low = (tmp_low < this.low ? tmp_low : this.low);
+
+        var weather = info.get_array_member ("weather").
+                get_element (0).get_object ();
+        times[this_hour].set_cond (weather.get_string_member ("main"));
+        times[this_hour].set_detail (weather.get_string_member ("description"));
     }
 
     private void fill_today (Json.Object info) {
+        if (!is_today) {
+            return;
+        }
         var util = new WeatherUtil ();
         this.weekday = util.get_weekday (info);
         var tmp = info.get_array_member ("weather");
@@ -67,9 +91,52 @@ public class Day {
         return this.conditions;
     }
 
-    private class Hour {
+    //public Hour[] get_all_hours () {
+        //return this.times;
+    //}
+
+    class Hour {
         int time;
         string condition;
-        int temp;
+        string details;
+        int64 temp;
+        string weekday;
+
+        public Hour (int time) {
+            this.weekday = get_day ();
+            this.time = time;
+        }
+
+        public string get_day () {
+            return this.weekday;
+        }
+
+        public void set_detail (string details) {
+            this.details = details;
+        }
+
+        public string get_detail () {
+            return this.details;
+        }
+
+        public void set_temp (int64 temp) {
+            this.temp = temp;
+        }
+
+        public string get_cond () {
+            return this.condition;
+        }
+
+        public void set_cond (string con) {
+            this.condition = con;
+        }
+
+        public int64 get_temp () {
+            return this.temp;
+        }
+
+        public int get_time () {
+            return this.time;
+        }
     }
 }

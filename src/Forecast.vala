@@ -20,13 +20,13 @@ public class Forecast {
         var cur_day = util.get_weekday (temp_day);
         var i = 0;
         days[i] = new Day (temp_day, false);
-        //TODO make this a for size loop
-        forecast_data.foreach_element (() => {
-            var ele = this;
+
+        for (var j = 0; j < forecast_data.get_length (); j++) {
+            var ele = forecast_data.get_element (j).get_object ();
             if (cur_day != util.get_weekday (ele) || days[i].is_full ()) {
                 days[++i] = new Day (ele, false);
             }
             days[i].fill_hour (ele);
-        });
+        }
     }
 }

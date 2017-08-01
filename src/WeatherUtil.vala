@@ -17,8 +17,8 @@ public class WeatherUtil {
         return root_object;
     }
 
-    public Json.Object send_get_weather 
-        (string type, string zip, string country) {
+    public Json.Object send_get_weather (string type, 
+                                         string zip, string country) {
         string url = "http://api.openweathermap.org/data/2.5" + 
             "/%s?zip=%s,%s&appid=%s".printf (type, zip, country, APP_ID);
 
