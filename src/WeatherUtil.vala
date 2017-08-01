@@ -19,8 +19,14 @@ public class WeatherUtil {
 
     public Json.Object send_get_weather (string type, 
                                          string zip, string country) {
-        string url = "http://api.openweathermap.org/data/2.5" + 
-            "/%s?zip=%s,%s&appid=%s".printf (type, zip, country, APP_ID);
+        string url = "";
+        if (country == "" || country == "us" || country == "US") {
+            url = "http://api.openweathermap.org/data/2.5" + 
+                "/%s?zip=%s&appid=%s".printf (type, zip, APP_ID);
+        } else {
+            url = "http://api.openweathermap.org/data/2.5" + 
+                "/%s?zip=%s,%s&appid=%s".printf (type, zip, country, APP_ID);
+        }
 
         Soup.Session session = new Soup.Session ();
         Soup.Message message = new Soup.Message ("GET", url);

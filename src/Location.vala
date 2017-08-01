@@ -28,4 +28,8 @@ public class Location {
     public string get_name () {
         return this.name;
     }
+
+    public Weather get_weather () {
+        return this.weather;
+    }
 }
