@@ -28,4 +28,33 @@ public class WeatherUtil {
         //stdout.puts ((string) message.response_body.data);
         return parse_data ((string) message.response_body.data);
     }
+
+    public string get_weekday (Json.Object hour) {
+        var time = new DateTime.from_unix_utc (hour.get_int_member ("dt"));
+        var day = "";
+        switch (time.get_day_of_week ()) {
+            case 1:
+                day = _("Monday");
+                break;
+            case 2:
+                day = _("Tuesday");
+                break;
+            case 3:
+                day = _("Wednesday");
+                break;
+            case 4:
+                day = _("Thursday");
+                break;
+            case 5:
+                day = _("Friday");
+                break;
+            case 6:
+                day = _("Saturday");
+                break;
+            case 7:
+                day = _("Sunday");
+                break;
+        }
+        return day;
+    }
 }

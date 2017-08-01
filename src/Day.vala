@@ -23,11 +23,12 @@ public class Day {
     }
 
     public void fill_hour (Json.Object info) {
-
+        var util = new WeatherUtil ();
     }
 
     private void fill_today (Json.Object info) {
-        this.weekday = get_weekday (info);
+        var util = new WeatherUtil ();
+        this.weekday = util.get_weekday (info);
         var tmp = info.get_array_member ("weather");
         var weather = tmp.get_element (0).get_object ();
         this.conditions = weather.get_string_member ("main");
@@ -36,35 +37,6 @@ public class Day {
         this.high = main.get_int_member ("temp_max");
         this.low = main.get_int_member ("temp_min");
         this.cur_temp = main.get_int_member ("temp");
-    }
-
-    private string get_weekday (Json.Object hour) {
-        var time = new DateTime.from_unix_utc (hour.get_int_member ("dt"));
-        var day = "";
-        switch (time.get_day_of_week ()) {
-            case 1:
-                day = _("Monday");
-                break;
-            case 2:
-                day = _("Tuesday");
-                break;
-            case 3:
-                day = _("Wednesday");
-                break;
-            case 4:
-                day = _("Thursday");
-                break;
-            case 5:
-                day = _("Friday");
-                break;
-            case 6:
-                day = _("Saturday");
-                break;
-            case 7:
-                day = _("Sunday");
-                break;
-        }
-        return day;
     }
 
     public bool is_full() {
