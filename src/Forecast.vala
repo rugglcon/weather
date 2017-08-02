@@ -17,7 +17,6 @@ public class Forecast {
     }
 
     public void parse_forecast (Json.Array forecast_data) {
-        stdout.puts ("parsing forecast\n");
         var util = new WeatherUtil ();
         var temp_day = forecast_data.get_element (0).get_object ();
         var cur_day = util.get_weekday (temp_day);
