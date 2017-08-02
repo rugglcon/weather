@@ -6,8 +6,9 @@ public class Weather {
     public Weather (Json.Array forecast_weather, 
                     Json.Object cur_weather, string deg_type) {
         this.deg_type = deg_type;
+
         forecast = new Forecast (forecast_weather, this.deg_type);
-        today = new Day (cur_weather, true);
+        today = new Day (cur_weather, true, this.deg_type);
     }
 
     public Day get_today () {

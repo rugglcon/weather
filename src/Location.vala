@@ -22,7 +22,8 @@ public class Location {
 
         var results = info.get_array_member ("list");
 
-        this.weather = new Weather (results, weather_object, "F");
+        var deg_type = "F";
+        this.weather = new Weather (results, weather_object, deg_type);
     }
 
     public string get_name () {

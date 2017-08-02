@@ -3,7 +3,7 @@ public class Forecast {
     private Day[] days;
 
     public Forecast (Json.Array forecast, string deg_type) {
-        days = new Day[4];
+        days = new Day[5];
         this.deg_type = deg_type;
         parse_forecast (forecast);
     }
@@ -17,11 +17,12 @@ public class Forecast {
     }
 
     public void parse_forecast (Json.Array forecast_data) {
+        stdout.puts ("parsing forecast\n");
         var util = new WeatherUtil ();
         var temp_day = forecast_data.get_element (0).get_object ();
         var cur_day = util.get_weekday (temp_day);
         var i = 0;
-        days[i] = new Day (temp_day, false);
+        days[i] = new Day (temp_day, false, this.deg_type);
         for (var j = 0; j < forecast_data.get_length (); j++) {
             var ele = forecast_data.get_element (j).get_object ();
             if (cur_day != util.get_weekday (ele) || days[i].is_full ()) {

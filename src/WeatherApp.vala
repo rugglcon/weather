@@ -52,7 +52,9 @@ public class WeatherApp : Gtk.Application {
                                             zip_code.get_text (), 
                                             country.get_text ());
 
-        location = new Location(weather_object.get_object_member ("city").get_string_member ("name"), zip_code.get_text (), country.get_text ());
+        location = new Location(weather_object.get_object_member ("city").
+                                get_string_member ("name"), zip_code.
+                                get_text (), country.get_text ());
         location.set_weather_info (weather_object);
 
         old_grid.destroy ();
