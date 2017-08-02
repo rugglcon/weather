@@ -22,7 +22,7 @@ public class Location {
 
         var results = info.get_array_member ("list");
 
-        this.weather = new Weather (results, weather_object);
+        this.weather = new Weather (results, weather_object, "F");
     }
 
     public string get_name () {

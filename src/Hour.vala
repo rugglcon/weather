@@ -4,10 +4,12 @@ public class Hour {
     string details;
     int64 temp;
     string weekday;
+    string deg_type;
 
-    public Hour (int time) {
+    public Hour (int time, string deg_type) {
         this.weekday = get_day ();
         this.time = time;
+        this.deg_type = deg_type;
     }
 
     public string get_day () {
@@ -35,7 +37,12 @@ public class Hour {
     }
 
     public int64 get_temp () {
-        return this.temp;
+        var util = new WeatherUtil ();
+        if (deg_type == "C") {
+            return util.get_celcius (this.temp);
+        } else {
+            return util.get_fahrenheit (this.temp);
+        }
     }
 
     public int get_time () {

@@ -8,9 +8,11 @@ public class Day {
     private int64 cur_temp;
     private bool is_today;
     private Hour[] times;
+    private string deg_type;
 
-    public Day (Json.Object info, bool today) {
+    public Day (Json.Object info, bool today, string deg_type) {
         is_today = today;
+        this.deg_type = deg_type;
         times = new Hour[24];
 
         if (is_today) {
@@ -28,7 +30,7 @@ public class Day {
                 info.get_int_member ("dt")).get_hour ();
         if (times[this_hour] == null || 
                 times[this_hour].get_day () != this.weekday) {
-            times[this_hour] = new Hour (this_hour);
+            times[this_hour] = new Hour (this_hour, this.deg_type);
         }
 
         var tmp_low = info.get_object_member ("main").
@@ -71,11 +73,21 @@ public class Day {
     }
 
     public int64 get_high () {
-        return this.high;
+        var util = new WeatherUtil ();
+        if (deg_type == "C") {
+            return util.get_celcius (this.high);
+        } else {
+            return util.get_fahrenheit (this.high);
+        }
     }
 
     public int64 get_low () {
-        return this.low;
+        var util = new WeatherUtil ();
+        if (deg_type == "C") {
+            return util.get_celcius (this.low);
+        } else {
+            return util.get_fahrenheit (this.low);
+        }
     }
 
     public int64 get_humidity () {

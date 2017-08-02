@@ -1,8 +1,10 @@
 public class Forecast {
+    private string deg_type;
     private Day[] days;
 
-    public Forecast (Json.Array forecast) {
+    public Forecast (Json.Array forecast, string deg_type) {
         days = new Day[4];
+        this.deg_type = deg_type;
         parse_forecast (forecast);
     }
 
@@ -24,7 +26,7 @@ public class Forecast {
             var ele = forecast_data.get_element (j).get_object ();
             if (cur_day != util.get_weekday (ele) || days[i].is_full ()) {
                 cur_day = util.get_weekday (ele);
-                days[++i] = new Day (ele, false);
+                days[++i] = new Day (ele, false, this.deg_type);
             }
             days[i].fill_hour (ele);
         }
