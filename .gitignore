@@ -3,3 +3,4 @@ build/
 com.github.rugglcon.weather
 tags
 *~
+.vscode/
