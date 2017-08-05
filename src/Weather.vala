@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011-2017 Your Organization (https://yourwebsite.com)
+* Copyright (c) 2011-2017 Connor Ruggles (https://rugglcon.github.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -16,14 +16,14 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 *
-* Authored by: Author <author@example.com>
+* Authored by: Connor Ruggles <cruggles@iastate.edu>
 */
 public class Weather {
     private Day today;
     private Forecast forecast;
     private string deg_type;
 
-    public Weather (Json.Array forecast_weather, 
+    public Weather (Json.Array forecast_weather,
                     Json.Object cur_weather, string deg_type) {
         this.deg_type = deg_type;
 
@@ -33,6 +33,10 @@ public class Weather {
 
     public Day get_today () {
         return this.today;
+    }
+
+    public void update_today (Json.Object cur_weather) {
+        today = new Day (cur_weather, true, this.deg_type);
     }
 
     public Forecast get_forecast () {

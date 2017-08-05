@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011-2017 Your Organization (https://yourwebsite.com)
+* Copyright (c) 2011-2017 Connor Ruggles (https://rugglcon.github.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -16,7 +16,7 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 *
-* Authored by: Author <author@example.com>
+* Authored by: Connor Ruggles <cruggles@iastate.edu>
 */
 public class WeatherApp : Gtk.Application {
     private Location location;
@@ -58,6 +58,14 @@ public class WeatherApp : Gtk.Application {
 
         window.add (grid);
         window.show_all ();
+        Timeout.add_seconds (10, get_weather_task);
+        new MainLoop ().run ();
+    }
+
+    public bool get_weather_task () {
+        this.location.update_today ();
+        stdout.puts ("updated weather");
+        return true;
     }
 
     public void request_weather_data () {
@@ -72,8 +80,8 @@ public class WeatherApp : Gtk.Application {
 
 
         var util = new WeatherUtil ();
-        var weather_object = util.send_get_weather ("forecast", 
-                                            zip_code.get_text (), 
+        var weather_object = util.send_get_weather ("forecast",
+                                            zip_code.get_text (),
                                             country.get_text ());
 
         location = new Location(weather_object.get_object_member ("city").
@@ -100,7 +108,7 @@ public class WeatherApp : Gtk.Application {
         window.add (new_grid);
         window.show_all ();
     }
-    
+
     public static int main(string[] args) {
         var app = new WeatherApp ();
         return app.run (args);

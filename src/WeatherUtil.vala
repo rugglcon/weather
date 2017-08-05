@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011-2017 Your Organization (https://yourwebsite.com)
+* Copyright (c) 2011-2017 Connor Ruggles (https://rugglcon.github.io)
 *
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public
@@ -16,7 +16,7 @@
 * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301 USA
 *
-* Authored by: Author <author@example.com>
+* Authored by: Connor Ruggles <cruggles@iastate.edu>
 */
 public class WeatherUtil {
     private string APP_ID = "919f430ae0c3ef379b192023fb803cd8";
@@ -28,7 +28,7 @@ public class WeatherUtil {
         try {
             var parser = new Json.Parser ();
             parser.load_from_data (data, -1);
-            
+
             root_object = parser.get_root ().get_object ();
         } catch (Error e) {
             stdout.puts ("something went wrong parsing JSON");
@@ -37,14 +37,14 @@ public class WeatherUtil {
         return root_object;
     }
 
-    public Json.Object send_get_weather (string type, 
+    public Json.Object send_get_weather (string type,
                                          string zip, string country) {
         string url = "";
         if (country == "" || country == "us" || country == "US") {
-            url = "http://api.openweathermap.org/data/2.5" + 
+            url = "http://api.openweathermap.org/data/2.5" +
                 "/%s?zip=%s&appid=%s".printf (type, zip, APP_ID);
         } else {
-            url = "http://api.openweathermap.org/data/2.5" + 
+            url = "http://api.openweathermap.org/data/2.5" +
                 "/%s?zip=%s,%s&appid=%s".printf (type, zip, country, APP_ID);
         }
 
