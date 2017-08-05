@@ -35,12 +35,12 @@ public class WeatherUtil {
         return parse_data ((string) message.response_body.data);
     }
 
-    public int64 get_fahrenheit (int64 kelvin) {
-        return ((9 / 5) * (kelvin - 273)) + 32;
+    public double get_fahrenheit (int64 kelvin) {
+        return (1.8 * (kelvin - 273.15)) + 32;
     }
 
-    public int64 get_celcius (int64 kelvin) {
-        return kelvin - 273;
+    public double get_celcius (int64 kelvin) {
+        return kelvin - 273.15;
     }
 
     public string get_weekday (Json.Object hour) {

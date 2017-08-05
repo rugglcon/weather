@@ -36,12 +36,12 @@ public class Hour {
         this.condition = con;
     }
 
-    public int64 get_temp () {
+    public int get_temp () {
         var util = new WeatherUtil ();
         if (deg_type == "C") {
-            return util.get_celcius (this.temp);
+            return (int) util.get_celcius (this.temp);
         } else {
-            return util.get_fahrenheit (this.temp);
+            return (int) util.get_fahrenheit (this.temp);
         }
     }
 

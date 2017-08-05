@@ -7,6 +7,10 @@ public class WeatherApp : Gtk.Application {
     }
 
     protected override void activate () {
+        if (get_windows ().length () > 0) {
+            get_windows ().data.present ();
+            return;
+        }
         var window = new Gtk.ApplicationWindow (this);
         window.set_default_size (1024, 768);
         window.title = _("Weather");
@@ -62,8 +66,13 @@ public class WeatherApp : Gtk.Application {
 
         var label = new Gtk.Label(location.get_name ());
         var today = location.get_weather ().get_today ();
-        new_grid.add (new Gtk.Label (today.get_high ().to_string ()));
-        new_grid.add (new Gtk.Label (today.get_low ().to_string ()));
+        var cur_temp = today.get_cur_temp ();
+        var weekday = today.get_day ();
+        var humid = today.get_humidity ();
+        //new_grid.add (new Gtk.Label (today.get_high ().to_string ()));
+        //new_grid.add (new Gtk.Label (today.get_low ().to_string ()));
+        new_grid.add (new Gtk.Label (cur_temp.to_string ()));
+        new_grid.add (new Gtk.Label (weekday));
         new_grid.add (new Gtk.Label (today.get_conditions ()));
 
         new_grid.add (label);

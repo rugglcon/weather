@@ -72,21 +72,21 @@ public class Day {
         return this.weekday;
     }
 
-    public int64 get_high () {
+    public int get_high () {
         var util = new WeatherUtil ();
         if (deg_type == "C") {
-            return util.get_celcius (this.high);
+            return (int) util.get_celcius (this.high);
         } else {
-            return util.get_fahrenheit (this.high);
+            return (int) util.get_fahrenheit (this.high);
         }
     }
 
-    public int64 get_low () {
+    public int get_low () {
         var util = new WeatherUtil ();
         if (deg_type == "C") {
-            return util.get_celcius (this.low);
+            return (int) util.get_celcius (this.low);
         } else {
-            return util.get_fahrenheit (this.low);
+            return (int) util.get_fahrenheit (this.low);
         }
     }
 
@@ -104,5 +104,14 @@ public class Day {
 
     public Hour[] get_all_hours () {
         return this.times;
+    }
+
+    public int get_cur_temp () {
+        var util = new WeatherUtil ();
+        if (deg_type == "C") {
+            return (int) util.get_celcius (this.cur_temp);
+        } else {
+            return (int) util.get_fahrenheit (this.cur_temp);
+        }
     }
 }
