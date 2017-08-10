@@ -29,8 +29,10 @@ public class Day {
     private bool is_today;
     private Hour[] times;
     private string deg_type;
+    private WeatherUtil util;
 
     public Day (Json.Object info, bool today, string deg_type) {
+        util = new WeatherUtil ();
         is_today = today;
         this.deg_type = deg_type;
         times = new Hour[24];
@@ -44,7 +46,6 @@ public class Day {
         if (is_today) {
             return;
         }
-        var util = new WeatherUtil ();
         this.weekday = util.get_weekday (info);
         var this_hour = new DateTime.from_unix_utc (
                 info.get_int_member ("dt")).get_hour ();
@@ -72,7 +73,19 @@ public class Day {
         if (!is_today) {
             return;
         }
-        var util = new WeatherUtil ();
+        this.weekday = util.get_weekday (info);
+        var tmp = info.get_array_member ("weather");
+        var weather = tmp.get_element (0).get_object ();
+        this.conditions = weather.get_string_member ("main");
+        var main = info.get_object_member ("main");
+        this.humidity = main.get_int_member ("humidity");
+        this.high = main.get_int_member ("temp_max");
+        this.low = main.get_int_member ("temp_min");
+        this.cur_temp = main.get_int_member ("temp");
+    }
+
+    public void update (Json.Object info, Gtk.Label l1, Gtk.Label l2, 
+                        Gtk.Label l3) {
         this.weekday = util.get_weekday (info);
         var tmp = info.get_array_member ("weather");
         var weather = tmp.get_element (0).get_object ();
@@ -102,7 +115,6 @@ public class Day {
     }
 
     public int get_low () {
-        var util = new WeatherUtil ();
         if (deg_type == "C") {
             return (int) util.get_celcius (this.low);
         } else {
@@ -127,7 +139,6 @@ public class Day {
     }
 
     public int get_cur_temp () {
-        var util = new WeatherUtil ();
         if (deg_type == "C") {
             return (int) util.get_celcius (this.cur_temp);
         } else {

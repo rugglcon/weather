@@ -51,11 +51,13 @@ public class Location {
         this.weather = new Weather (results, weather_object, this.deg_type);
     }
 
-    public void update_today () {
+    public void update_today (Gtk.Label l1, Gtk.Label l2, 
+                              Gtk.Label l3) {
+        stdout.puts ("in location.vala");
         var util = new WeatherUtil ();
         var weather_object = util.send_get_weather ("weather",
                                                     zip, country);
-        this.weather.update_today (weather_object);
+        this.weather.update_today (weather_object, l1, l2, l3);
     }
 
     public string get_name () {

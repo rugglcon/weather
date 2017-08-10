@@ -35,8 +35,9 @@ public class Weather {
         return this.today;
     }
 
-    public void update_today (Json.Object cur_weather) {
-        today = new Day (cur_weather, true, this.deg_type);
+    public void update_today (Json.Object cur_weather, Gtk.Label l1,
+                              Gtk.Label l2, Gtk.Label l3) {
+        today.update (cur_weather, l1, l2, l3);
     }
 
     public Forecast get_forecast () {

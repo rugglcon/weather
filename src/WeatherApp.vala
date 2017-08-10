@@ -58,14 +58,11 @@ public class WeatherApp : Gtk.Application {
 
         window.add (grid);
         window.show_all ();
-        Timeout.add_seconds (10, get_weather_task);
-        new MainLoop ().run ();
     }
 
-    public bool get_weather_task () {
-        this.location.update_today ();
+    public void get_weather_task (Gtk.Label l1, Gtk.Label l2, Gtk.Label l3) {
+        this.location.update_today (l1, l2, l3);
         stdout.puts ("updated weather");
-        return true;
     }
 
     public void request_weather_data () {
@@ -97,14 +94,23 @@ public class WeatherApp : Gtk.Application {
         var today = location.get_weather ().get_today ();
         var cur_temp = today.get_cur_temp ();
         var weekday = today.get_day ();
-        var humid = today.get_humidity ();
         //new_grid.add (new Gtk.Label (today.get_high ().to_string ()));
         //new_grid.add (new Gtk.Label (today.get_low ().to_string ()));
-        new_grid.add (new Gtk.Label (cur_temp.to_string ()));
-        new_grid.add (new Gtk.Label (weekday));
-        new_grid.add (new Gtk.Label (today.get_conditions ()));
+
+        var update_btn = new Gtk.Button.with_label (_("Refresh"));
+        var temp_label = new Gtk.Label (cur_temp.to_string ());
+        new_grid.add (temp_label);
+        var day_label = new Gtk.Label (weekday); 
+        new_grid.add (day_label);
+        var cond_label = new Gtk.Label (today.get_conditions ());
+        new_grid.add (cond_label);
+
+        update_btn.clicked.connect (() => {
+            this.get_weather_task (temp_label, day_label, cond_label);
+        });
 
         new_grid.add (label);
+        new_grid.add (update_btn);
         window.add (new_grid);
         window.show_all ();
     }

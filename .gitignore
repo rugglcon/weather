@@ -4,3 +4,4 @@ com.github.rugglcon.weather
 tags
 *~
 .vscode/
+*.vim
