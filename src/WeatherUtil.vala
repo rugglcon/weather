@@ -63,8 +63,10 @@ public class WeatherUtil {
         return kelvin - 273.15;
     }
 
-    public string get_weekday (Json.Object hour) {
-        var time = new DateTime.from_unix_utc (hour.get_int_member ("dt"));
+    public string get_weekday (Json.Object? hour) {
+        var time = (hour == null ? new DateTime.now_local () : 
+                        new DateTime.from_unix_utc (
+                            hour.get_int_member ("dt")));
         var day = "";
         switch (time.get_day_of_week ()) {
             case 1:

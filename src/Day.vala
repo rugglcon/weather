@@ -73,7 +73,7 @@ public class Day {
         if (!is_today) {
             return;
         }
-        this.weekday = util.get_weekday (info);
+        this.weekday = util.get_weekday (null);
         var tmp = info.get_array_member ("weather");
         var weather = tmp.get_element (0).get_object ();
         this.conditions = weather.get_string_member ("main");
@@ -86,7 +86,7 @@ public class Day {
 
     public void update (Json.Object info, Gtk.Label l1, Gtk.Label l2, 
                         Gtk.Label l3) {
-        this.weekday = util.get_weekday (info);
+        this.weekday = util.get_weekday (null);
         var tmp = info.get_array_member ("weather");
         var weather = tmp.get_element (0).get_object ();
         this.conditions = weather.get_string_member ("main");
@@ -95,6 +95,10 @@ public class Day {
         this.high = main.get_int_member ("temp_max");
         this.low = main.get_int_member ("temp_min");
         this.cur_temp = main.get_int_member ("temp");
+
+        l1.label = this.get_cur_temp ().to_string ();
+        l2.label = this.weekday;
+        l3.label = this.conditions;
     }
 
     public bool is_full() {

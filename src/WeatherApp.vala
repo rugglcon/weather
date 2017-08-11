@@ -62,7 +62,6 @@ public class WeatherApp : Gtk.Application {
 
     public void get_weather_task (Gtk.Label l1, Gtk.Label l2, Gtk.Label l3) {
         this.location.update_today (l1, l2, l3);
-        stdout.puts ("updated weather");
     }
 
     public void request_weather_data () {
@@ -111,6 +110,7 @@ public class WeatherApp : Gtk.Application {
 
         new_grid.add (label);
         new_grid.add (update_btn);
+        new_grid.column_spacing = 4;
         window.add (new_grid);
         window.show_all ();
     }
