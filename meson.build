@@ -14,12 +14,15 @@ c_args = [
 vala_src = run_command('src/grabber.sh')
 sources = vala_src.stdout().strip().split('\n')
 
+add_project_arguments(['--vapidir', join_paths(meson.current_source_dir(), 'vapi')], language: 'vala')
+
 executable('com.github.rugglcon.weather', sources, c_args: c_args, 
 	dependencies : [
 		dependency('gtk+-3.0'),
 		dependency('libsoup-2.4'),
 		dependency('json-glib-1.0'),
-		dependency('gio-2.0')
+		dependency('gio-2.0'),
+		dependency('libgeoclue-2.0')
 	], install : true)
 
 subdir('data')

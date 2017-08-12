@@ -20,10 +20,12 @@
 */
 public class WeatherApp : Gtk.Application {
     private Location location;
+    private WeatherUtil util;
 
     public WeatherApp () {
         Object (application_id: "com.github.rugglcon.weather",
                 flags: ApplicationFlags.FLAGS_NONE);
+        util = new WeatherUtil ();
     }
 
     protected override void activate () {
@@ -43,16 +45,39 @@ public class WeatherApp : Gtk.Application {
         var country_entry = new Gtk.Entry ();
 
         var submit = new Gtk.Button.with_label (_("Submit"));
+        var decide = new Gtk.RadioButton.with_label_from_widget (null, _("Get Location"));
+        var grid = new Gtk.Grid ();
+        decide.toggled.connect (() => {
+            zip_label.sensitive = false;
+            zip_entry.sensitive = false;
+            country_label.sensitive = false;
+            country_entry.sensitive = false;
+        });
+        grid.attach (decide, 0, 0);
+
+        var decide2 = new Gtk.RadioButton.with_label_from_widget (decide, _("Input Location"));
+        decide2.toggled.connect (() => {
+            zip_label.sensitive = true;
+            zip_entry.sensitive = true;
+            country_label.sensitive = true;
+            country_entry.sensitive = true;
+        });
+        grid.attach (decide2, 1, 0);
+        decide2.set_active (true);
+
         submit.clicked.connect (() => {
-            request_weather_data ();
+            if (decide.active == true) {
+                get_location.begin ();
+            } else {
+                request_weather_data ();
+            }
         });
 
-        var grid = new Gtk.Grid ();
-        grid.attach (zip_label, 0, 0);
-        grid.attach (zip_entry, 1, 0);
-        grid.attach (country_label, 0, 1);
-        grid.attach (country_entry, 1, 1);
-        grid.attach (submit, 1, 2);
+        grid.attach (zip_label, 0, 1);
+        grid.attach (zip_entry, 1, 1);
+        grid.attach (country_label, 0, 2);
+        grid.attach (country_entry, 1, 2);
+        grid.attach (submit, 1, 3);
         grid.row_spacing = 6;
         grid.column_spacing = 2;
 
@@ -60,8 +85,25 @@ public class WeatherApp : Gtk.Application {
         window.show_all ();
     }
 
-    public void get_weather_task (Gtk.Label l1, Gtk.Label l2, Gtk.Label l3) {
+    public async void get_weather_task (Gtk.Label l1, 
+                                        Gtk.Label l2, Gtk.Label l3) {
         this.location.update_today (l1, l2, l3);
+        stdout.puts ("update\n");
+    }
+
+    public async void get_location () {
+        stdout.puts ("location active\n");
+        try {
+            var simple = yield new GClue.Simple ("com.github.rugglcon.weather", GClue.AccuracyLevel.CITY, null);
+            stdout.printf ("%s\n", simple.location.latitude.to_string ());
+            //stdout.printf ("%s\n", simple.location.description);
+            simple.notify["location"].connect (() => {
+                stdout.printf ("%s\n", simple.location.latitude.to_string ());
+            });
+        } catch (Error e) {
+            warning ("Failed to connect to GeoClue2 service: %s", e.message);
+            return;
+        }
     }
 
     public void request_weather_data () {
@@ -70,12 +112,11 @@ public class WeatherApp : Gtk.Application {
         Gtk.Entry country = null;
         var old_grid = (Gtk.Grid) window.get_child ();
         if (old_grid != null) {
-            zip_code = (Gtk.Entry) old_grid.get_child_at (1, 0);
-            country = (Gtk.Entry) old_grid.get_child_at (1, 1);
+            zip_code = (Gtk.Entry) old_grid.get_child_at (1, 1);
+            country = (Gtk.Entry) old_grid.get_child_at (1, 2);
         }
 
 
-        var util = new WeatherUtil ();
         var weather_object = util.send_get_weather ("forecast",
                                             zip_code.get_text (),
                                             country.get_text ());
@@ -105,7 +146,7 @@ public class WeatherApp : Gtk.Application {
         new_grid.add (cond_label);
 
         update_btn.clicked.connect (() => {
-            this.get_weather_task (temp_label, day_label, cond_label);
+            this.get_weather_task.begin (temp_label, day_label, cond_label);
         });
 
         new_grid.add (label);
